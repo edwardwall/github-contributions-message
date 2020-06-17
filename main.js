@@ -29,12 +29,13 @@ function main() {
 
     let startDate = calculateStartDate(messageWidth);
 
-    FS.mkdirSync("./fake.git");
+    FS.mkdirSync("./output/");
+    FS.mkdirSync("./output/.git/");
 
     for (char in MESSAGE) {
         let charWidth = calculateCharacterWidth(char);
         makeCommits(char, startDate, charWidth);
-        incrementStartDate(charWidth);
+        incrementStartDate(charWidth, startDate);
     }
 
 
@@ -80,7 +81,7 @@ function calculateStartDate(messageWidth) {
 
 }
 
-function incrementStartDate(characterWidth) {
+function incrementStartDate(characterWidth, startDate) {
 
     // Add one for the space after the character.
     startDate.setDate(startDate.getDate() + (BAR.HEIGHT * (characterWidth + 1)));
