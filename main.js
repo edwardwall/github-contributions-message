@@ -20,6 +20,8 @@ function main() {
         throw Error("Message is wider than contributions bar");
     }
 
+    let startDate = calculateStartDate(messageWidth);
+
 }
 
 function calculateMessageWidth() {
@@ -39,5 +41,17 @@ function calculateMessageWidth() {
     width += MESSAGE.length - 1; // Add spaces between characters
 
     return width;
+
+}
+
+function calculateStartDate(messageWidth) {
+
+    let startDate = new Date();
+
+    startDate.setHours(12, 0, 0, 0); // set time to 12:00.
+    startDate.setDate(startDate.getDate() - startDate.getDay()); // go to last Sunday.
+    startDate.setDate(startDate.getDate() - (messageWidth * BAR.HEIGHT)); // Go back [messageWidth] weeks.
+
+    return startDate;
 
 }
