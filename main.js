@@ -29,6 +29,10 @@ function main() {
 
     let startDate = calculateStartDate(messageWidth);
 
+    FS.mkdirSync("./fake.git");
+
+
+
 }
 
 function calculateMessageWidth() {
@@ -36,18 +40,25 @@ function calculateMessageWidth() {
     let width = 0;
 
     for (c of MESSAGE) {
-        if ('w' === c || 'm' === c) {
-            width += 5;
-        } else if ('i' === c) {
-            width += 1;
-        } else {
-            width += 3;
-        }
+        width += calculateCharacterWidth(c);
     }
 
     width += MESSAGE.length - 1; // Add spaces between characters
 
     return width;
+
+}
+
+function calculateCharacterWidth(c) {
+
+    if ('w' === c || 'm' === c) {
+        return 5;
+
+    } else if ('i' === c) {
+        return 1;
+    }
+
+    return  3;
 
 }
 
