@@ -6,9 +6,16 @@ const BAR = {
     HEIGHT: 7
 };
 
-const MESSAGE = process.argv[2];
-if (undefined === MESSAGE) {
-    throw Error("Message must be defined - node main.js \"Message\"");
+const [, , BASELINE, MESSAGE] = process.argv;
+
+if (!(BASELINE && MESSAGE)) {
+    console.log();
+    console.log("Should be called with two arguments.");
+    console.log("  baseline - the highest number of commits in your contributions bar");
+    console.log("  message  - the message you want to create");
+    console.log("For example: node main.js 30 \"Hello World\"");
+    console.log();
+    throw Error("Missing command line arguments - see above.");
 }
 
 main();
