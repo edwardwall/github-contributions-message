@@ -1,5 +1,9 @@
 const FS = require("fs");
 
+const OUTPUT = "./output/";
+FS.mkdirSync(OUTPUT);
+const GIT = (require("simple-git"))(OUTPUT);
+
 // Dimensions for GitHub contributions bar.
 const BAR = {
     WIDTH: 52,
@@ -41,6 +45,8 @@ main();
 
 function main() {
 
+    GIT.init(() => {});
+
     let messageWidth = calculateMessageWidth();
     if (BAR.WIDTH < messageWidth) {
         throw Error("Message is wider than contributions bar");
@@ -48,16 +54,11 @@ function main() {
 
     let startDate = calculateStartDate(messageWidth);
 
-    FS.mkdirSync("./output/");
-    FS.mkdirSync("./output/.git/");
-
     for (char of MESSAGE) {
         let charWidth = calculateCharacterWidth(char);
         makeCommits(char, startDate, charWidth);
         incrementStartDate(charWidth, startDate);
     }
-
-
 
 }
 
@@ -114,10 +115,12 @@ function makeCommits(char, startDate, charWidth) {
     let currentDate = new Date(startDate);
     let totalDays = BAR.HEIGHT * charWidth;
 
-    for (let i = 0; i < totalDays; i++) {
+    for (let day = 0; day < totalDays; day++) {
 
-        if (CHARACTERS[char].includes(i)) {
+        if (CHARACTERS[char].includes(day)) {
+            for (let i = 0; i < BASELINE; i++) {
 
+            }
         }
 
         currentDate.setDate(currentDate.getDate() + 1); // increment
