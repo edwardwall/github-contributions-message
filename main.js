@@ -18,6 +18,25 @@ if (!(BASELINE && MESSAGE)) {
     throw Error("Missing command line arguments - see above.");
 }
 
+/*
+    Representation of which 'pixels' are on for each character.
+    Reference Map:
+
+    0  7 14
+    1  8 15
+    2  9 16
+    3 10 17
+    4 11 18
+    5 12 19
+    6 13 20
+
+*/
+const CHARACTERS = {
+    a: [1,2,3,4,5, 8,10, 15,16,17,18,19],
+    b: [1,2,3,4,5, 8,10,12, 16,18],
+    c: [2,3,4, 8,12, 15,19]
+};
+
 main();
 
 function main() {
@@ -32,7 +51,7 @@ function main() {
     FS.mkdirSync("./output/");
     FS.mkdirSync("./output/.git/");
 
-    for (char in MESSAGE) {
+    for (char of MESSAGE) {
         let charWidth = calculateCharacterWidth(char);
         makeCommits(char, startDate, charWidth);
         incrementStartDate(charWidth, startDate);
@@ -92,6 +111,17 @@ function incrementStartDate(characterWidth, startDate) {
 
 function makeCommits(char, startDate, charWidth) {
 
+    let currentDate = new Date(startDate);
+    let totalDays = BAR.HEIGHT * charWidth;
 
+    for (let i = 0; i < totalDays; i++) {
+
+        if (CHARACTERS[char].includes(i)) {
+
+        }
+
+        currentDate.setDate(currentDate.getDate() + 1); // increment
+
+    }
 
 }
