@@ -33,13 +33,8 @@ if (!(BASELINE && MESSAGE)) {
     4 11 18
     5 12 19
     6 13 20
-
 */
-const CHARACTERS = {
-    a: [1,2,3,4,5, 8,10, 15,16,17,18,19],
-    b: [1,2,3,4,5, 8,10,12, 16,18],
-    c: [2,3,4, 8,12, 15,19]
-};
+const CHARACTERS = JSON.parse(FS.readFileSync("./characters.json", "utf8"));
 
 main();
 
@@ -115,11 +110,10 @@ function makeCommits(char, startDate, charWidth) {
     let currentDate = new Date(startDate);
     let totalDays = BAR.HEIGHT * charWidth;
 
-    for (let day = 0; day < totalDays; day++) {
+    for (let day = 0; day < 1; day++) {
 
         if (CHARACTERS[char].includes(day)) {
-            for (let i = 0; i < BASELINE; i++) {
-
+            for (let i = 0; i < 1; i++) {
             }
         }
 
