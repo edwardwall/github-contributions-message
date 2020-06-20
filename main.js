@@ -110,10 +110,10 @@ function makeCommits(char, startDate, charWidth) {
     let currentDate = new Date(startDate);
     let totalDays = BAR.HEIGHT * charWidth;
 
-    for (let day = 0; day < 1; day++) {
+    for (let day = 0; day < totalDays; day++) {
 
         if (CHARACTERS[char].includes(day)) {
-            for (let i = 0; i < 1; i++) {
+            for (let i = 0; i < BASELINE; i++) {
             }
         }
 
