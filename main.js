@@ -38,7 +38,7 @@ const CHARACTERS = JSON.parse(FS.readFileSync("./characters.json", "utf8"));
 
 main();
 
-function main() {
+async function main() {
 
     GIT.init(() => {});
 
@@ -51,8 +51,9 @@ function main() {
 
     for (char of MESSAGE) {
         let charWidth = calculateCharacterWidth(char);
-        makeCommits(char, startDate, charWidth);
+        await makeCommits(char, startDate, charWidth);
         incrementStartDate(charWidth, startDate);
+        console.log("Completed:", char);
     }
 
 }
@@ -105,20 +106,38 @@ function incrementStartDate(characterWidth, startDate) {
 
 }
 
-function makeCommits(char, startDate, charWidth) {
+async function makeCommits(char, startDate, charWidth) {
+    return new Promise(async (resolve, reject) => {
 
-    let currentDate = new Date(startDate);
-    let totalDays = BAR.HEIGHT * charWidth;
+        let currentDate = new Date(startDate);
+        let totalDays = BAR.HEIGHT * charWidth;
 
-    for (let day = 0; day < totalDays; day++) {
+        let filenames = [];
 
-        if (CHARACTERS[char].includes(day)) {
-            for (let i = 0; i < BASELINE; i++) {
+        for (let day = 0; day < totalDays; day++) {
+
+            if (CHARACTERS[char].includes(day)) {
+                for (let i = 0; i < BASELINE; i++) {
+
+                    let filename = Math.floor(1000000 * Math.random()).toString();
+                    FS.writeFileSync("./output/" + filename,
+                        Math.random().toString());
+
+                    await GIT.add("./*");
+                    await GIT.commit("", filenames, {
+                        "--allow-empty-message": true,
+                        "--date": Math.round(currentDate.getTime() / 1000).toString()
+                    });
+
+                    FS.unlinkSync("./output/" + filename);
+                }
             }
+
+            currentDate.setDate(currentDate.getDate() + 1); // increment
+
         }
 
-        currentDate.setDate(currentDate.getDate() + 1); // increment
+        resolve();
 
-    }
-
+    });
 }
